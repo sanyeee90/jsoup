@@ -1,7 +1,9 @@
 package org.jsoup.nodes;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -9,6 +11,7 @@ import org.junit.Test;
  *
  * @author Jonathan Hedley
  */
+@Ignore
 public class AttributesTest {
     @Test public void html() {
         Attributes a = new Attributes();

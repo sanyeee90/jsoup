@@ -185,7 +185,7 @@ public class UrlConnectTest {
         assertTrue(doc.title().contains("Google"));
     }
 
-    @Test
+    @Test(expected=java.net.SocketTimeoutException.class)
     public void gracefullyHandleBrokenLocationRedirect() throws IOException {
         Connection con = Jsoup.connect("http://aag-ye.com"); // has Location: http:/temp/AAG_New/en/index.php
         con.get(); // would throw exception on error
