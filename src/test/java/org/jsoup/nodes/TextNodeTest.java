@@ -17,12 +17,16 @@ public class TextNodeTest {
         TextNode three = new TextNode("  \n\n   ", "");
         TextNode four = new TextNode("Hello", "");
         TextNode five = new TextNode("  \nHello ", "");
+        TextNode six = new TextNode("  Hello\n ", "");
+        TextNode seven = new TextNode("  \nHello\n ", "");
 
         assertTrue(one.isBlank());
         assertTrue(two.isBlank());
         assertTrue(three.isBlank());
         assertFalse(four.isBlank());
         assertFalse(five.isBlank());
+        assertFalse(six.isBlank());
+        assertFalse(seven.isBlank());
     }
     
     @Test public void testTextBean() {
@@ -72,4 +76,19 @@ public class TextNodeTest {
         TextNode t = doc.body().textNodes().get(0);
         assertEquals(new String(Character.toChars(135361)), t.outerHtml().trim());
     }
+    
+    @Test public void testToRemoveAttributes(){
+    	Document doc = Jsoup.parse("<div class=\"clazz\">Remove attribute div</div>");
+    	
+    	Element div = doc.select("div").first();
+    	TextNode tn = (TextNode) div.childNode(0);
+    	Attributes attributes = tn.attributes();
+    	boolean isHasAttribute = tn.hasAttr("text");
+    	tn.removeAttr("text");
+//    	div.removeAttr("class");
+    	assertEquals(true, isHasAttribute);
+    	assertEquals(0, tn.attributes.size());
+    	
+    }
+    
 }
