@@ -26,10 +26,25 @@ public class TagTest {
         assertTrue(p1.equals(p2));
         assertTrue(p1 == p2);
     }
+    
+    @Test public void notEquality(){
+    	Tag p = Tag.valueOf("p");
+        assertFalse(p.equals("notTagString"));
+    }
 
+    @Test public void hashCodeTest(){
+    	Tag keyGen = Tag.valueOf("keygen");
+    	Tag plainText = Tag.valueOf("plaintext");
+    	Tag address = Tag.valueOf("address");
+    	Tag base = Tag.valueOf("base");
+    	base.setSelfClosing();
+    	assertFalse(keyGen.hashCode()==plainText.hashCode());
+    	assertFalse(address.hashCode()==base.hashCode());
+    }
+    			
+    
     @Test public void divSemantics() {
         Tag div = Tag.valueOf("div");
-
         assertTrue(div.isBlock());
         assertTrue(div.formatAsBlock());
     }

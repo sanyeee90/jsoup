@@ -52,10 +52,44 @@ public class TokenQueueTest {
         assertEquals("<textarea> one two < three </oops>", data);
     }
 
-    @Test public void addFirst() {
+    @Test public void addFirstString() {
         TokenQueue tq = new TokenQueue("One Two");
         tq.consumeWord();
         tq.addFirst("Three");
         assertEquals("Three Two", tq.remainder());
     }
+    
+    @Test public void addFirstChar() {
+        TokenQueue tq = new TokenQueue("One Two");
+        tq.addFirst('!');
+        assertEquals("!One Two", tq.remainder());
+    }
+    @Test public void consumeTagWithAttirbute() {
+        TokenQueue tq = new TokenQueue("<iframe allowfullscreen></iframe>");
+        assertTrue(tq.matchesStartTag());
+        tq.consume("<");
+        assertEquals("iframe",tq.consumeTagName());
+        assertTrue(tq.consumeWhitespace());
+        assertEquals("allowfullscreen",tq.consumeAttributeKey());
+        assertEquals('>',tq.peek()); //get the char but don't remove it
+        tq.consume("><");
+        tq.advance();//drop the '/' char
+        assertEquals("iframe",tq.consumeTagName());
+        assertEquals(">", tq.toString());
+    }
+    
+    @Test(expected=IllegalStateException.class)
+    public void consumeNonExistChar() {
+        TokenQueue tq = new TokenQueue("iframe allowfullscreen></iframe>");
+        tq.consume("<");
+    }
+    
+    @Test
+    public void peekFromEmptyQueue(){
+    	TokenQueue tq = new TokenQueue("empty");
+    	tq.consume("empty");
+    	assertEquals(0, tq.peek());
+    }
+    
+
 }

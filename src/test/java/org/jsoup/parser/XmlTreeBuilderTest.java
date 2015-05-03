@@ -3,6 +3,7 @@ package org.jsoup.parser;
 import org.jsoup.Jsoup;
 import org.jsoup.TextUtil;
 import org.jsoup.helper.StringUtil;
+import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
@@ -19,6 +20,7 @@ import java.util.List;
 import static org.jsoup.nodes.Document.OutputSettings.Syntax;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests XmlTreeBuilder.
@@ -120,5 +122,12 @@ public class XmlTreeBuilderTest {
     @Test public void xmlParseDefaultsToHtmlOutputSyntax() {
         Document doc = Jsoup.parse("x", "", Parser.xmlParser());
         assertEquals(Syntax.xml, doc.outputSettings().syntax());
+    }
+    
+    @Test public void processStartTagWithAttribute(){
+    	 String xml = "<doc id=2 href='/bar'>Foo <br /><link>One</link><link>Two</link></doc>";
+    	 XmlTreeBuilder tb = new XmlTreeBuilder();
+    	 tb.parse(xml, "http://foo.com/");
+         assertTrue(tb.processStartTag("br", new Attributes()));
     }
 }
