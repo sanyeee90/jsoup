@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
  Tests the URL connection. Not enabled by default, so tests don't require network connection.
 
  @author Jonathan Hedley, jonathan@hedley.net */
-@Ignore // ignored by default so tests don't require network access. comment out to enable.
+//@Ignore // ignored by default so tests don't require network access. comment out to enable.
 public class UrlConnectTest {
     private static final String WEBSITE_WITH_INVALID_CERTIFICATE = "https://certs.cac.washington.edu/CAtest/";
     private static final String WEBSITE_WITH_SNI = "https://jsoup.org/";
@@ -49,10 +49,10 @@ public class UrlConnectTest {
         Connection.Response res = Jsoup.connect("http://www.baidu.com/").timeout(10*1000).execute();
         Document doc = res.parse();
 
-        assertEquals("GBK", doc.outputSettings().charset().displayName());
-        assertEquals("GBK", res.charset());
+        assertEquals("UTF-8", doc.outputSettings().charset().displayName());
+        assertEquals("UTF-8", res.charset());
         assert(res.hasCookie("BAIDUID"));
-        assertEquals("text/html;charset=gbk", res.contentType());
+        assertEquals("text/html; charset=utf-8", res.contentType());
     }
     
     @Test
